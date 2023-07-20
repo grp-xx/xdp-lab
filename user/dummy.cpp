@@ -1,19 +1,28 @@
 #include <iostream>
 #include <cstdlib> 
 #include <bpf/bpf.h>
+#include <string>
 #include <xdp/libxdp.h>
 #include <linux/if_ether.h>
-// #include <bpf/bpf_helpers.h>
 #include <xdp/xdp_helpers.h>
 #include <iproute2/bpf_elf.h>
-
+#include <net/if.h>
 
 #define IFINDEX 2
 
 
 int main(int argc, char** argv)
 {
-    int n = atoi(argv[1]);
-    struct xdp_program *p = xdp_program__from_id(n); 
+    if (argc != 3) {
+        return EXIT_FAILURE;
+    }
+    int n = if_nametoindex(argv[1]);
+
+    int id = atoi(argv[2]);
+
+    std::cout << "IFINDEX: " << n << std::endl;
+    struct xdp_program *p = xdp_program__from_id(id);
+    
+    std::cout << "Program name: " << xdp_program__name(p) << std::endl;
 
 }
