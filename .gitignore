@@ -1,3 +1,4 @@
 build/
 .cache/
 kernel/*.o
+ebpf-npl/*.o
